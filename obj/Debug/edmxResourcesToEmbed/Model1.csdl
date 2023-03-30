@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="linasoftModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="client">
+    <Key>
+      <PropertyRef Name="client_id" />
+    </Key>
+    <Property Name="client_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="location_id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="location" Relationship="Self.FK_client_location" FromRole="client" ToRole="location" />
+    <NavigationProperty Name="interactions" Relationship="Self.FK_interaction_client1" FromRole="client" ToRole="interaction" />
+  </EntityType>
+  <EntityType Name="interaction">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="client_id" Type="Int32" Nullable="false" />
+    <Property Name="pesonel_id" Type="Int32" Nullable="false" />
+    <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="reason" Type="Int32" Nullable="false" />
+    <Property Name="details" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="type" Type="Int32" Nullable="false" />
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="reasonexp" Type="String" MaxLength="16" FixedLength="false" Unicode="false" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="typeexp" Type="String" MaxLength="20" FixedLength="false" Unicode="false" annotation:StoreGeneratedPattern="Computed" />
+    <NavigationProperty Name="client" Relationship="Self.FK_interaction_client1" FromRole="interaction" ToRole="client" />
+    <NavigationProperty Name="personel" Relationship="Self.FK_interaction_personel" FromRole="interaction" ToRole="personel" />
+  </EntityType>
+  <EntityType Name="location">
+    <Key>
+      <PropertyRef Name="location_id" />
+    </Key>
+    <Property Name="location_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="clients" Relationship="Self.FK_client_location" FromRole="location" ToRole="client" />
+  </EntityType>
+  <EntityType Name="personel">
+    <Key>
+      <PropertyRef Name="personel_id" />
+    </Key>
+    <Property Name="personel_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="surname" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="username" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="profile_image" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <NavigationProperty Name="interactions" Relationship="Self.FK_interaction_personel" FromRole="personel" ToRole="interaction" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="data_grid">
+    <Key>
+      <PropertyRef Name="c_name" />
+      <PropertyRef Name="client_id" />
+      <PropertyRef Name="date" />
+      <PropertyRef Name="reason" />
+      <PropertyRef Name="type" />
+      <PropertyRef Name="id" />
+      <PropertyRef Name="l_name" />
+      <PropertyRef Name="location_id" />
+      <PropertyRef Name="personel_id" />
+      <PropertyRef Name="username" />
+    </Key>
+    <Property Name="c_name" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="client_id" Type="Int32" Nullable="false" />
+    <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="reason" Type="Int32" Nullable="false" />
+    <Property Name="type" Type="Int32" Nullable="false" />
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="reasonexp" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+    <Property Name="typeexp" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="l_name" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="location_id" Type="Int32" Nullable="false" />
+    <Property Name="personel_id" Type="Int32" Nullable="false" />
+    <Property Name="username" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_client_location">
+    <End Role="location" Type="Self.location" Multiplicity="1" />
+    <End Role="client" Type="Self.client" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="location">
+        <PropertyRef Name="location_id" />
+      </Principal>
+      <Dependent Role="client">
+        <PropertyRef Name="location_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_interaction_client1">
+    <End Role="client" Type="Self.client" Multiplicity="1" />
+    <End Role="interaction" Type="Self.interaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="client">
+        <PropertyRef Name="client_id" />
+      </Principal>
+      <Dependent Role="interaction">
+        <PropertyRef Name="client_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_interaction_personel">
+    <End Role="personel" Type="Self.personel" Multiplicity="1" />
+    <End Role="interaction" Type="Self.interaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="personel">
+        <PropertyRef Name="personel_id" />
+      </Principal>
+      <Dependent Role="interaction">
+        <PropertyRef Name="pesonel_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="linasoftEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="clients" EntityType="Self.client" />
+    <EntitySet Name="interactions" EntityType="Self.interaction" />
+    <EntitySet Name="locations" EntityType="Self.location" />
+    <EntitySet Name="personels" EntityType="Self.personel" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="data_grid" EntityType="Self.data_grid" />
+    <AssociationSet Name="FK_client_location" Association="Self.FK_client_location">
+      <End Role="location" EntitySet="locations" />
+      <End Role="client" EntitySet="clients" />
+    </AssociationSet>
+    <AssociationSet Name="FK_interaction_client1" Association="Self.FK_interaction_client1">
+      <End Role="client" EntitySet="clients" />
+      <End Role="interaction" EntitySet="interactions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_interaction_personel" Association="Self.FK_interaction_personel">
+      <End Role="personel" EntitySet="personels" />
+      <End Role="interaction" EntitySet="interactions" />
+    </AssociationSet>
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(linasoftModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(linasoftModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+  </EntityContainer>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+</Schema>

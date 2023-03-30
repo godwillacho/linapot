@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="linasoftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="client">
+    <Key>
+      <PropertyRef Name="client_id" />
+    </Key>
+    <Property Name="client_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nchar" MaxLength="20" Nullable="false" />
+    <Property Name="location_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="interaction">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="client_id" Type="int" Nullable="false" />
+    <Property Name="pesonel_id" Type="int" Nullable="false" />
+    <Property Name="date" Type="datetime" Nullable="false" />
+    <Property Name="reason" Type="int" Nullable="false" />
+    <Property Name="details" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="type" Type="int" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="reasonexp" Type="varchar" MaxLength="16" StoreGeneratedPattern="Computed" />
+    <Property Name="typeexp" Type="varchar" MaxLength="20" StoreGeneratedPattern="Computed" />
+  </EntityType>
+  <EntityType Name="location">
+    <Key>
+      <PropertyRef Name="location_id" />
+    </Key>
+    <Property Name="location_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="personel">
+    <Key>
+      <PropertyRef Name="personel_id" />
+    </Key>
+    <Property Name="personel_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nchar" MaxLength="20" Nullable="false" />
+    <Property Name="surname" Type="nchar" MaxLength="20" Nullable="false" />
+    <Property Name="password" Type="nchar" MaxLength="20" Nullable="false" />
+    <Property Name="username" Type="nchar" MaxLength="20" Nullable="false" />
+    <Property Name="profile_image" Type="image" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'linasoft.dbo.data_grid' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="data_grid">
+    <Key>
+      <PropertyRef Name="c_name" />
+      <PropertyRef Name="client_id" />
+      <PropertyRef Name="date" />
+      <PropertyRef Name="reason" />
+      <PropertyRef Name="type" />
+      <PropertyRef Name="id" />
+      <PropertyRef Name="l_name" />
+      <PropertyRef Name="location_id" />
+      <PropertyRef Name="personel_id" />
+      <PropertyRef Name="username" />
+    </Key>
+    <Property Name="c_name" Type="nchar" MaxLength="20" Nullable="false" />
+    <Property Name="client_id" Type="int" Nullable="false" />
+    <Property Name="date" Type="datetime" Nullable="false" />
+    <Property Name="reason" Type="int" Nullable="false" />
+    <Property Name="type" Type="int" Nullable="false" />
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="reasonexp" Type="varchar" MaxLength="16" />
+    <Property Name="typeexp" Type="varchar" MaxLength="20" />
+    <Property Name="l_name" Type="nchar" MaxLength="20" Nullable="false" />
+    <Property Name="location_id" Type="int" Nullable="false" />
+    <Property Name="personel_id" Type="int" Nullable="false" />
+    <Property Name="username" Type="nchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_client_location">
+    <End Role="location" Type="Self.location" Multiplicity="1" />
+    <End Role="client" Type="Self.client" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="location">
+        <PropertyRef Name="location_id" />
+      </Principal>
+      <Dependent Role="client">
+        <PropertyRef Name="location_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_interaction_client1">
+    <End Role="client" Type="Self.client" Multiplicity="1" />
+    <End Role="interaction" Type="Self.interaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="client">
+        <PropertyRef Name="client_id" />
+      </Principal>
+      <Dependent Role="interaction">
+        <PropertyRef Name="client_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_interaction_personel">
+    <End Role="personel" Type="Self.personel" Multiplicity="1" />
+    <End Role="interaction" Type="Self.interaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="personel">
+        <PropertyRef Name="personel_id" />
+      </Principal>
+      <Dependent Role="interaction">
+        <PropertyRef Name="pesonel_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="linasoftModelStoreContainer">
+    <EntitySet Name="client" EntityType="Self.client" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="interaction" EntityType="Self.interaction" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="location" EntityType="Self.location" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="personel" EntityType="Self.personel" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="data_grid" EntityType="Self.data_grid" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [data_grid].[c_name] AS [c_name], 
+    [data_grid].[client_id] AS [client_id], 
+    [data_grid].[date] AS [date], 
+    [data_grid].[reason] AS [reason], 
+    [data_grid].[type] AS [type], 
+    [data_grid].[id] AS [id], 
+    [data_grid].[reasonexp] AS [reasonexp], 
+    [data_grid].[typeexp] AS [typeexp], 
+    [data_grid].[l_name] AS [l_name], 
+    [data_grid].[location_id] AS [location_id], 
+    [data_grid].[personel_id] AS [personel_id], 
+    [data_grid].[username] AS [username]
+    FROM [dbo].[data_grid] AS [data_grid]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_client_location" Association="Self.FK_client_location">
+      <End Role="location" EntitySet="location" />
+      <End Role="client" EntitySet="client" />
+    </AssociationSet>
+    <AssociationSet Name="FK_interaction_client1" Association="Self.FK_interaction_client1">
+      <End Role="client" EntitySet="client" />
+      <End Role="interaction" EntitySet="interaction" />
+    </AssociationSet>
+    <AssociationSet Name="FK_interaction_personel" Association="Self.FK_interaction_personel">
+      <End Role="personel" EntitySet="personel" />
+      <End Role="interaction" EntitySet="interaction" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

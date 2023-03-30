@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="linasoftModel1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="data_grid">
+    <Key>
+      <PropertyRef Name="client_id" />
+      <PropertyRef Name="name" />
+      <PropertyRef Name="id" />
+      <PropertyRef Name="date" />
+      <PropertyRef Name="reason" />
+      <PropertyRef Name="personel_id" />
+    </Key>
+    <Property Name="client_id" Type="Int32" Nullable="false" />
+    <Property Name="name" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="reason" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="personel_id" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="linasoftEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="data_grid" EntityType="Self.data_grid" />
+  </EntityContainer>
+</Schema>

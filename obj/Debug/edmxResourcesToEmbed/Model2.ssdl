@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="linasoftModel1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'linasoft.dbo.data_grid' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="data_grid">
+    <Key>
+      <PropertyRef Name="client_id" />
+      <PropertyRef Name="name" />
+      <PropertyRef Name="id" />
+      <PropertyRef Name="date" />
+      <PropertyRef Name="reason" />
+      <PropertyRef Name="personel_id" />
+    </Key>
+    <Property Name="client_id" Type="int" Nullable="false" />
+    <Property Name="name" Type="nchar" MaxLength="20" Nullable="false" />
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="date" Type="datetime" Nullable="false" />
+    <Property Name="reason" Type="nchar" MaxLength="20" Nullable="false" />
+    <Property Name="personel_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="linasoftModel1StoreContainer">
+    <EntitySet Name="data_grid" EntityType="Self.data_grid" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [data_grid].[client_id] AS [client_id], 
+    [data_grid].[name] AS [name], 
+    [data_grid].[id] AS [id], 
+    [data_grid].[date] AS [date], 
+    [data_grid].[reason] AS [reason], 
+    [data_grid].[personel_id] AS [personel_id]
+    FROM [dbo].[data_grid] AS [data_grid]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="linasoftModel1StoreContainer" CdmEntityContainer="linasoftEntities1">
+    <EntitySetMapping Name="data_grid">
+      <EntityTypeMapping TypeName="linasoftModel1.data_grid">
+        <MappingFragment StoreEntitySet="data_grid">
+          <ScalarProperty Name="client_id" ColumnName="client_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="reason" ColumnName="reason" />
+          <ScalarProperty Name="personel_id" ColumnName="personel_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
