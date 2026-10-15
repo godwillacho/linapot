@@ -41,7 +41,7 @@
           <Property Name="personel_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="nchar" MaxLength="20" Nullable="false" />
           <Property Name="surname" Type="nchar" MaxLength="20" Nullable="false" />
-          <Property Name="password" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="username" Type="nchar" MaxLength="20" Nullable="false" />
           <Property Name="profile_image" Type="image" />
         </EntityType>
@@ -231,7 +231,7 @@ warning 6002: The table/view 'linasoft.dbo.data_grid' does not have a primary ke
           <Property Name="personel_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="surname" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="password" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="username" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="profile_image" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="interactions" Relationship="Self.FK_interaction_personel" FromRole="personel" ToRole="interaction" />

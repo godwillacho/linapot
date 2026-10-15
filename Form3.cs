@@ -42,19 +42,26 @@ namespace linapot
 
             using (linasoftEntities db = new linasoftEntities())
             {
-                var obj = db.personels.Where(x => x.personel_id == personel_id && x.password == textBox1.Text).FirstOrDefault();
+                var obj = db.personels.Where(x => x.personel_id == personel_id).FirstOrDefault();
 
-                if (pass_txt.Text == rpass_txt.Text)
+                if (string.IsNullOrWhiteSpace(pass_txt.Text))
                 {
-                    if (obj != null)
+                    MessageBox.Show("please enter a new password");
+                }
+                else if (pass_txt.Text == rpass_txt.Text)
+                {
+                    if (obj != null && PasswordHasher.Verify(textBox1.Text, obj.password))
                     {
-                        obj.password = pass_txt.Text;
-                        db.Entry(obj).State = System.Data.Entity.EntityState.Modified;                  
+                        obj.password = PasswordHasher.Hash(pass_txt.Text);
+                        db.Entry(obj).State = System.Data.Entity.EntityState.Modified;
                         MessageBox.Show("password modified");
                         pass_txt.Text = rpass_txt.Text = textBox1.Text = "";
-                        
                     }
-                  
+                    else
+                    {
+                        MessageBox.Show("your current password is incorrect");
+                        textBox1.Text = "";
+                    }
                 }
                 else
                 {

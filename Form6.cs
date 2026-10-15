@@ -34,19 +34,25 @@ namespace linapot
 
         private void create_btn_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text == null && textBox2.Text == null && textBox3.Text == null)
+            if (!string.IsNullOrWhiteSpace(textBox1.Text) &&
+                !string.IsNullOrWhiteSpace(textBox2.Text) &&
+                !string.IsNullOrWhiteSpace(textBox3.Text))
             {
+                // Each account gets a random temporary password instead of a shared default.
+                string tempPassword = PasswordHasher.GenerateTemporaryPassword();
+
                 var person = new personel();
                 person.name = textBox1.Text;
                 person.surname = textBox2.Text;
                 person.username = textBox3.Text;
-                person.password = "hello";
+                person.password = PasswordHasher.Hash(tempPassword);
                 person.profile_image = null;
                 using (linasoftEntities db = new linasoftEntities())
                 {
                     db.personels.Add(person);
                     db.SaveChanges();
-                    MessageBox.Show("Personel created");
+                    MessageBox.Show("Personel created.\n\nTemporary password: " + tempPassword +
+                        "\n\nShare it securely and ask the user to change it after first login.");
                     textBox1.Text = textBox2.Text = textBox3.Text = "";
                 }
             }
