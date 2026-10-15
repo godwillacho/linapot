@@ -25,16 +25,22 @@ namespace linapot
         //onclick button
         private void button1_Click(object sender, EventArgs e)
         {
-            var context = new linasoftEntities();
             if (textBox1.Text != "" && textBox2.Text != "")
             {
-               
-
                 using (linasoftEntities db = new linasoftEntities())
                 {
-                   var  person = context.personels.FirstOrDefault(x => x.username == textBox1.Text && x.password==textBox2.Text);
-                    if (person != null)
+                    string username = textBox1.Text;
+                    var person = db.personels.FirstOrDefault(x => x.username == username);
+
+                    if (person != null && PasswordHasher.Verify(textBox2.Text, person.password))
                     {
+                        // Upgrade legacy plain-text passwords to a hash on first successful login.
+                        if (!PasswordHasher.IsHashed(person.password))
+                        {
+                            person.password = PasswordHasher.Hash(textBox2.Text);
+                            db.SaveChanges();
+                        }
+
                         if (person.personel_id == 1)
                         {
                             Form4 admin = new Form4();
@@ -54,7 +60,7 @@ namespace linapot
                     }                  
                     else
                     {
-                        MessageBox.Show("your username and do not match or exist");
+                        MessageBox.Show("Invalid username or password");
                         textBox1.Text = textBox2.Text = "";
                     }
                     
